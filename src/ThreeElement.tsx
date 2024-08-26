@@ -1,11 +1,24 @@
-import React from "react";
+import { useFrame, useThree } from "@react-three/fiber";
+import React, { useRef } from "react";
 import * as THREE from "three";
 
 const ThreeElement = () => {
+  const { size, gl, scene, camera } = useThree();
+  const boxRef = useRef<THREE.Mesh>(null);
+
+  useFrame((state, delta) => {
+    //   console.log("state:", state);
+    //   console.log("delta", delta);
+    // console.log("boxRef", boxRef);
+    boxRef.current.rotation.x += delta;
+    boxRef.current.rotation.y -= 0.01;
+    boxRef.current.scale.z += 0.01;
+  });
   return (
     <>
       <directionalLight position={[5, 5, 5]} />
       <mesh
+        ref={boxRef}
         rotation={[
           THREE.MathUtils.degToRad(45),
           THREE.MathUtils.degToRad(45),
