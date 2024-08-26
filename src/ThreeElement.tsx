@@ -10,9 +10,9 @@ const ThreeElement = () => {
     //   console.log("state:", state);
     //   console.log("delta", delta);
     // console.log("boxRef", boxRef);
-    boxRef.current.rotation.x += delta;
-    boxRef.current.rotation.y -= 0.01;
-    boxRef.current.scale.z += 0.01;
+    // boxRef.current.rotation.x += delta;
+    // boxRef.current.rotation.y -= 0.01;
+    // boxRef.current.scale.z += 0.01;
   });
   return (
     <>
