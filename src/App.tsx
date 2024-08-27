@@ -2,8 +2,23 @@ import "./App.css";
 import { Canvas } from "@react-three/fiber";
 import ThreeElement from "./ThreeElement";
 import { OrbitControls } from "@react-three/drei";
+import { useControls } from "leva";
 
 function App() {
+  // GUI 로 control 하려는 항목을 작성할 수 있음.
+  const color = useControls({
+    value: "white",
+  });
+
+  const grid = useControls({
+    segment: {
+      value: 10,
+      min: 2,
+      max: 100,
+      step: 1,
+    },
+  });
+
   return (
     <>
       <Canvas
@@ -16,6 +31,7 @@ function App() {
           position: [5, 5, 0],
         }}
       >
+        <color attach="background" args={[color.value]} />
         {/* 카메라의 시점을 변경할수 있는 controler */}
         <OrbitControls
           // AzimuthAngle => 방위각, 좌우 움직이는데 제한거는 것
@@ -28,7 +44,7 @@ function App() {
         {/* 좌표값을 확인할수 있는 controler, args 값은 길이로 기본단위는 m임*/}
         <axesHelper args={[5]} />
         {/* 바닥에 grid 를 깔고 규격에 맞춰서 보여주는 controler args={[grid 크기, 전체 segmentation, center 에는 red 색상으로 표시, 마지막은 나머지 그리드 색상]}*/}
-        <gridHelper args={[20, 20, 0xff0000, "teal"]} />
+        <gridHelper args={[20, grid.segment]} />
         <ThreeElement />
       </Canvas>
       R3F basic

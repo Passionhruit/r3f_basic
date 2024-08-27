@@ -1,10 +1,20 @@
 import { useFrame, useThree } from "@react-three/fiber";
 import React, { useRef } from "react";
 import * as THREE from "three";
+import { useControls } from "leva";
 
 const ThreeElement = () => {
   const { size, gl, scene, camera } = useThree();
   const boxRef = useRef<THREE.Mesh>(null);
+
+  const box = useControls({
+    rotation: {
+      value: 0,
+      min: -360,
+      max: 360,
+      step: 1,
+    },
+  });
 
   useFrame((state, delta) => {
     //   console.log("state:", state);
@@ -21,7 +31,7 @@ const ThreeElement = () => {
         ref={boxRef}
         rotation={[
           THREE.MathUtils.degToRad(45),
-          THREE.MathUtils.degToRad(45),
+          THREE.MathUtils.degToRad(box.rotation),
           0,
         ]}
       >
