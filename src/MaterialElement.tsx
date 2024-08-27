@@ -21,7 +21,7 @@ const MaterialElement = () => {
       <directionalLight position={[5, 5, 5]} />
       {/* <fog attach={"fog"} args={["blue", 3, 10]} /> */}
       <mesh ref={meshRef} position={[0, 0, 0]}>
-        <sphereGeometry args={[1, 32, 16]} />
+        <torusKnotGeometry args={[0.5, 0.2]} />
       </mesh>
       <group ref={groupRef}>
         <mesh>
@@ -73,6 +73,50 @@ const MaterialElement = () => {
         <mesh>
           {/* normal 은 x,y,z의 벡터값을 rgb로 변경*/}
           <meshNormalMaterial />
+        </mesh>
+
+        {/* 물리기반 렌더링 material */}
+
+        <mesh>
+          <meshStandardMaterial
+            color="orange"
+            visible={true}
+            transparent={false}
+            opacity={1} // transparent 가 true 일 때만 조정됨
+            side={THREE.FrontSide} // 앞면이 기본, 뒤를 바라보면 geometry 가 사라짐 frontside, backside, doubleside 가 있음
+            alphaTest={0.5} // alphatest 보다 opacity가 낮아지면 geometry 안보임
+            depthTest={true} // true 기본값,  뒤에있는 물체가 가려보이지않고 다 보이게 됨, 거리계산을 하지않음
+            depthWrite={true} // 내가 카메라에서 얼마나 먼지를 계산하는 buffer 에 내가 설정한 geometry 는 사용하지 않겠다. z 값에 의한 ordering 이 사라지게됨
+            fog={true} // fog 값에 의해서 영향을 받나/ 안받나, 기본값 false
+            emissive={"black"}
+            roughness={0.3} // 높일수록 표면 거칠어지는 느낌
+            metalness={0.5} // 높일수록 금속느낌
+          />
+        </mesh>
+        <mesh>
+          <meshPhysicalMaterial
+            color="purple"
+            visible={true}
+            transparent={false}
+            opacity={1} // transparent 가 true 일 때만 조정됨
+            side={THREE.FrontSide} // 앞면이 기본, 뒤를 바라보면 geometry 가 사라짐 frontside, backside, doubleside 가 있음
+            alphaTest={0.5} // alphatest 보다 opacity가 낮아지면 geometry 안보임
+            depthTest={true} // true 기본값,  뒤에있는 물체가 가려보이지않고 다 보이게 됨, 거리계산을 하지않음
+            depthWrite={true} // 내가 카메라에서 얼마나 먼지를 계산하는 buffer 에 내가 설정한 geometry 는 사용하지 않겠다. z 값에 의한 ordering 이 사라지게됨
+            fog={true} // fog 값에 의해서 영향을 받나/ 안받나, 기본값 false
+            emissive={"black"}
+            roughness={0.3} // 높일수록 표면 거칠어지는 느낌
+            metalness={0.5} // 높일수록 금속느낌
+            clearcoat={1}
+            clearcoatRoughness={0}
+            transmission={0}
+            thickness={10}
+            ior={2}
+          />
+        </mesh>
+        <mesh>
+          {/* 카메라와의 거리에따라 흰색, 검은색으로 변경 */}
+          <meshDepthMaterial />
         </mesh>
       </group>
     </>
