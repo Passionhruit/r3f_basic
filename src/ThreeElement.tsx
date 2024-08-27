@@ -50,6 +50,33 @@ const ThreeElement = () => {
     },
   });
 
+  const circleControls = useControls({
+    radius: {
+      value: 1,
+      min: 0.1,
+      max: 10,
+      step: 0.1,
+    },
+    seg: {
+      value: 32,
+      min: 1,
+      max: 100,
+      step: 1,
+    },
+    thetaStart: {
+      value: 0,
+      min: 0,
+      max: 360,
+      step: 0.1,
+    },
+    thetaLength: {
+      value: 360,
+      min: 0,
+      max: 360,
+      step: 0.1,
+    },
+  });
+
   // const box = useControls({
   //   rotation: {
   //     value: 0,
@@ -115,6 +142,19 @@ const ThreeElement = () => {
         {/* geometry 공유하는방법 */}
         <mesh ref={boxCopyRef} position={[0, 2, 0]}>
           <meshStandardMaterial wireframe />
+        </mesh>
+
+        {/* circleGeometry */}
+        <mesh position={[4, 0, 0]}>
+          <circleGeometry
+            args={[
+              circleControls.radius,
+              circleControls.seg,
+              THREE.MathUtils.degToRad(circleControls.thetaStart),
+              THREE.MathUtils.degToRad(circleControls.thetaLength),
+            ]}
+          />
+          <meshStandardMaterial color="pink" />
         </mesh>
       </group>
     </>
