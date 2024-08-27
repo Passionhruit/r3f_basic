@@ -26,9 +26,9 @@ function App() {
         camera={{
           // zoom: 150,
           near: 1,
-          far: 20,
+          far: 100,
           fov: 75, // 2d camera에 없는부분으로 orthographic 에서 zoom 이 대신한다.
-          position: [5, 5, 0],
+          position: [5, 5, 5],
         }}
       >
         <color attach="background" args={[color.value]} />
