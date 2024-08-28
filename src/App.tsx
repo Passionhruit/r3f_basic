@@ -5,6 +5,7 @@ import { OrbitControls } from "@react-three/drei";
 import { useControls } from "leva";
 import MaterialElement from "./MaterialElement";
 import LightElement from "./LightElement";
+import InteractionTest from "./InteractionTest";
 
 function App() {
   // GUI 로 control 하려는 항목을 작성할 수 있음.
@@ -45,12 +46,13 @@ function App() {
         // maxPolarAngle={Math.PI - Math.PI / 6}
         />
         {/* 좌표값을 확인할수 있는 controler, args 값은 길이로 기본단위는 m임*/}
-        {/* <axesHelper args={[5]} /> */}
+        <axesHelper args={[5]} />
         {/* 바닥에 grid 를 깔고 규격에 맞춰서 보여주는 controler args={[grid 크기, 전체 segmentation, center 에는 red 색상으로 표시, 마지막은 나머지 그리드 색상]}*/}
-        {/* <gridHelper args={[20, grid.segment]} /> */}
+        <gridHelper args={[20, grid.segment]} />
         {/* <ThreeElement /> */}
         {/* <MaterialElement /> */}
-        <LightElement />
+        {/* <LightElement /> */}
+        <InteractionTest />
       </Canvas>
       R3F basic
     </>
