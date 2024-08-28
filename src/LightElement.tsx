@@ -1,9 +1,9 @@
 import { useFrame } from "@react-three/fiber";
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
-import { useTexture } from "@react-three/drei";
+import { useHelper, useTexture } from "@react-three/drei";
 
-const MaterialElement = () => {
+const LightElement = () => {
   const meshRef = useRef<THREE.Mesh>(null);
   const groupRef = useRef<THREE.Group>(null);
 
@@ -22,27 +22,49 @@ const MaterialElement = () => {
     }
   }, []);
 
+  const dLight = useRef<THREE.DirectionalLight>(null!);
+  useHelper(dLight, THREE.DirectionalLightHelper);
+
   return (
     <>
-      {/* <directionalLight position={[5, 5, 5]} /> */}
+      {/* directionalLight : color값, position, intensity 를 가짐, 방향이 있는 빛 (햇빛) */}
+      {/* <directionalLight
+        ref={dLight}
+        color={"#fff"}
+        intensity={5}
+        position={[0, 5, 0]}
+        target-position={[0, 0, 2]}
+      /> */}
+      {/* ambientlight : color, intensity 넣는 것이 기본, 주변광 및 간접광 같은 형태*/}
+      {/* <ambientLight color="blue" /> */}
+      {/* hemisphereLight : 위쪽에서비추는 색상, 아래쪽에서비추는색상 강도, 돔 라이트 : 하늘색깔조명, 바닥색깔 조명*/}
+      {/* <hemisphereLight args={["blue", "yellow", 3]} /> */}
       {/* <fog attach={"fog"} args={["blue", 3, 10]} /> */}
+      {/* pointLight : 방향이 없이 전체적으로 퍼지는 빛, 백열등 */}
+      {/* <pointLight
+        color={"#fff"}
+        intensity={50}
+        position={[0, 0, 2]}
+        distance={10}
+      /> */}
+      {/* 스포트라이트 : 각도 조절가능, 맨마지막은 빛의 가장자리부분의 흐릿함정도  */}
+      <spotLight
+        color={"#fff"}
+        intensity={300}
+        position={[0, 5, 0]}
+        distance={10}
+        angle={THREE.MathUtils.degToRad(40)}
+        target-position={[0, 0, 0]}
+        penumbra={0.5}
+      />
+      <mesh rotation-x={[THREE.MathUtils.degToRad(-90)]} position-y={-1}>
+        <planeGeometry args={[15, 15]} />
+        <meshStandardMaterial side={THREE.DoubleSide} color={"#100d96"} />
+      </mesh>
       <mesh ref={meshRef} position={[0, 0, 0]}>
         <torusKnotGeometry args={[0.5, 0.2]} />
       </mesh>
       <group ref={groupRef}>
-        <mesh>
-          <meshBasicMaterial
-            color="red"
-            visible={true}
-            transparent={false}
-            opacity={1} // transparent 가 true 일 때만 조정됨
-            side={THREE.FrontSide} // 앞면이 기본, 뒤를 바라보면 geometry 가 사라짐 frontside, backside, doubleside 가 있음
-            alphaTest={0.5} // alphatest 보다 opacity가 낮아지면 geometry 안보임
-            depthTest={true} // true 기본값,  뒤에있는 물체가 가려보이지않고 다 보이게 됨, 거리계산을 하지않음
-            depthWrite={true} // 내가 카메라에서 얼마나 먼지를 계산하는 buffer 에 내가 설정한 geometry 는 사용하지 않겠다. z 값에 의한 ordering 이 사라지게됨
-            fog={true} // fog 값에 의해서 영향을 받나/ 안받나, 기본값 false
-          />
-        </mesh>
         <mesh>
           {/* ambertMaterial 은 빛에대한 영향을 받음 */}
           <meshLambertMaterial
@@ -76,13 +98,7 @@ const MaterialElement = () => {
             flatShading={true}
           />
         </mesh>
-        <mesh>
-          {/* normal 은 x,y,z의 벡터값을 rgb로 변경*/}
-          <meshNormalMaterial />
-        </mesh>
-
         {/* 물리기반 렌더링 material */}
-
         <mesh>
           <meshStandardMaterial
             color="orange"
@@ -116,21 +132,12 @@ const MaterialElement = () => {
             clearcoat={1}
             clearcoatRoughness={0}
             transmission={0}
-            thickness={10}
+            thickness={0.5}
             ior={2}
           />
         </mesh>
         <mesh>
-          {/* 카메라와의 거리에따라 흰색, 검은색으로 변경 */}
-          <meshDepthMaterial />
-        </mesh>
-
-        <mesh>
-          {/* light 가 필요가 없음 */}
-          <meshMatcapMaterial matcap={matcap} />
-        </mesh>
-        <mesh>
-          {/* 몇개 톤만으로 이루어진 모습으로 렌더링, 컬러값 변경 가능 */}
+          {/* 몇개 톤만으로 이루어진 모습으로 렌더링, 컬러값 변경 가능, 빛에대해 영향 받음 */}
           <meshToonMaterial gradientMap={tone} color="pink" />
         </mesh>
       </group>
@@ -138,4 +145,4 @@ const MaterialElement = () => {
   );
 };
 
-export default MaterialElement;
+export default LightElement;
