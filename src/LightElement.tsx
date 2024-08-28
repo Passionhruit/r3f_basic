@@ -1,7 +1,7 @@
 import { useFrame } from "@react-three/fiber";
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
-import { useHelper, useTexture } from "@react-three/drei";
+import { Environment, useHelper, useTexture } from "@react-three/drei";
 
 const LightElement = () => {
   const meshRef = useRef<THREE.Mesh>(null);
@@ -48,7 +48,7 @@ const LightElement = () => {
         distance={10}
       /> */}
       {/* 스포트라이트 : 각도 조절가능, 맨마지막은 빛의 가장자리부분의 흐릿함정도  */}
-      <spotLight
+      {/* <spotLight
         color={"#fff"}
         intensity={300}
         position={[0, 5, 0]}
@@ -56,7 +56,8 @@ const LightElement = () => {
         angle={THREE.MathUtils.degToRad(40)}
         target-position={[0, 0, 0]}
         penumbra={0.5}
-      />
+      /> */}
+      <Environment files={"./imgs/hdr1.hdr"} background blur={0.1} />
       <mesh rotation-x={[THREE.MathUtils.degToRad(-90)]} position-y={-1}>
         <planeGeometry args={[15, 15]} />
         <meshStandardMaterial side={THREE.DoubleSide} color={"#100d96"} />

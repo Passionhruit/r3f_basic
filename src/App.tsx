@@ -36,12 +36,12 @@ function App() {
         <color attach="background" args={[color.value]} />
         {/* 카메라의 시점을 변경할수 있는 controler */}
         <OrbitControls
-          // AzimuthAngle => 방위각, 좌우 움직이는데 제한거는 것
-          minAzimuthAngle={-Math.PI / 4} // Math.PI 기본적으로 180도
-          maxAzimuthAngle={Math.PI / 4}
-          // PolarAngle => 상하 움직이는데 제한거는 것
-          minPolarAngle={Math.PI / 6}
-          maxPolarAngle={Math.PI - Math.PI / 6}
+        // AzimuthAngle => 방위각, 좌우 움직이는데 제한거는 것
+        // minAzimuthAngle={-Math.PI / 4} // Math.PI 기본적으로 180도
+        // maxAzimuthAngle={Math.PI / 4}
+        // PolarAngle => 상하 움직이는데 제한거는 것
+        // minPolarAngle={Math.PI / 6}
+        // maxPolarAngle={Math.PI - Math.PI / 6}
         />
         {/* 좌표값을 확인할수 있는 controler, args 값은 길이로 기본단위는 m임*/}
         {/* <axesHelper args={[5]} /> */}
