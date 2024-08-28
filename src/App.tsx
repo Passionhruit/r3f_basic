@@ -24,6 +24,7 @@ function App() {
   return (
     <>
       <Canvas
+        shadows // shadow 생성 옵션
         // orthographic // camera type, orthographic :2d, 기본값은 3d
         camera={{
           // zoom: 150,

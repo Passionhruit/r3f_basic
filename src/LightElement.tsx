@@ -18,7 +18,7 @@ const LightElement = () => {
     for (let i = 0; i < groupRef.current!.children.length; i++) {
       const mesh = groupRef.current!.children[i] as THREE.Mesh;
       mesh.geometry = meshRef.current!.geometry;
-      mesh.position.x = (i + 1) * 2 - 10;
+      mesh.position.x = (i + 1) * 2 - 6;
     }
   }, []);
 
@@ -28,13 +28,16 @@ const LightElement = () => {
   return (
     <>
       {/* directionalLight : color값, position, intensity 를 가짐, 방향이 있는 빛 (햇빛) */}
-      {/* <directionalLight
+      <directionalLight
+        castShadow // shadow 생성 옵션
+        shadow-camera-top={3} // shadow 범위 설정옵션 , top left right bottom 있음
+        shadow-mapSize={[512, 512]} // 기본값 512 512, size 를 넓혀주면 해상도가 증가하기 때문에 좀 더 뚜렷한것이 가능
         ref={dLight}
         color={"#fff"}
         intensity={5}
         position={[0, 5, 0]}
         target-position={[0, 0, 2]}
-      /> */}
+      />
       {/* ambientlight : color, intensity 넣는 것이 기본, 주변광 및 간접광 같은 형태*/}
       {/* <ambientLight color="blue" /> */}
       {/* hemisphereLight : 위쪽에서비추는 색상, 아래쪽에서비추는색상 강도, 돔 라이트 : 하늘색깔조명, 바닥색깔 조명*/}
@@ -57,8 +60,13 @@ const LightElement = () => {
         target-position={[0, 0, 0]}
         penumbra={0.5}
       /> */}
-      <Environment files={"./imgs/hdr1.hdr"} background blur={0.1} />
-      <mesh rotation-x={[THREE.MathUtils.degToRad(-90)]} position-y={-1}>
+      {/* <Environment files={"./imgs/hdr1.hdr"} background blur={0.1} /> */}
+      <mesh
+        rotation-x={[THREE.MathUtils.degToRad(-90)]}
+        position-y={-1}
+        castShadow
+        receiveShadow // shadow 를 받아서 그려준다.
+      >
         <planeGeometry args={[15, 15]} />
         <meshStandardMaterial side={THREE.DoubleSide} color={"#100d96"} />
       </mesh>
@@ -66,7 +74,10 @@ const LightElement = () => {
         <torusKnotGeometry args={[0.5, 0.2]} />
       </mesh>
       <group ref={groupRef}>
-        <mesh>
+        <mesh castShadow receiveShadow>
+          {/* // 나의 메쉬에 의해서 그림자가 만들어져라 : castShadow
+          만들어진 그림자가 다시 자신의 메쉬에 영향을 줘라 : recieveShadow
+          */}
           {/* ambertMaterial 은 빛에대한 영향을 받음 */}
           <meshLambertMaterial
             color="red"
@@ -81,7 +92,7 @@ const LightElement = () => {
             emissive={"black"} // material 자체에서 방출하는 color, 기본값은 black
           />
         </mesh>
-        <mesh>
+        <mesh castShadow receiveShadow>
           {/* phong 은 반사되는 빛에대한 영향을 받음, 플라스틱 같은 것*/}
           <meshPhongMaterial
             color="green"
@@ -100,7 +111,7 @@ const LightElement = () => {
           />
         </mesh>
         {/* 물리기반 렌더링 material */}
-        <mesh>
+        <mesh castShadow receiveShadow>
           <meshStandardMaterial
             color="orange"
             visible={true}
@@ -116,7 +127,7 @@ const LightElement = () => {
             metalness={0.5} // 높일수록 금속느낌
           />
         </mesh>
-        <mesh>
+        <mesh castShadow receiveShadow>
           <meshPhysicalMaterial
             color="purple"
             visible={true}
@@ -137,7 +148,7 @@ const LightElement = () => {
             ior={2}
           />
         </mesh>
-        <mesh>
+        <mesh castShadow receiveShadow>
           {/* 몇개 톤만으로 이루어진 모습으로 렌더링, 컬러값 변경 가능, 빛에대해 영향 받음 */}
           <meshToonMaterial gradientMap={tone} color="pink" />
         </mesh>
